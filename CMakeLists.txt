@@ -8,7 +8,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK4 REQUIRED gtk4)
 
-add_executable(editor.sk src/main.cpp)
+add_executable(editor.sk
+    src/main.cpp
+    src/menu/menuBar.cpp
+    src/menu/menuBarActions.cpp
+)
 
 target_include_directories(editor.sk PRIVATE ${GTK4_INCLUDE_DIRS})
 
