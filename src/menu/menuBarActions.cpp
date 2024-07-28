@@ -10,3 +10,6 @@ void aUndo(GApplication* app, gpointer data) {
 void aCut(GApplication* app, gpointer data) {
     std::cout << "Cut" << std::endl;
 }
+void aOpenFile(GApplication* app, gpointer data) {
+    std::cout << "Cut" << std::endl;
+}

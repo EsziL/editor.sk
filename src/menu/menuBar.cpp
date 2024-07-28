@@ -1,18 +1,13 @@
 #include "menuBar.h"
 #include "menuBarActions.h"
+#include "menuActionsList.h"
 #include <vector>
 #include <tuple>
 
-GMenu* createMenuBar(_GtkApplication* app) {
-    GSimpleAction *undoAction;
-    GSimpleAction *redoAction;
-    GSimpleAction *cutAction;
-
-    std::vector<std::tuple<GSimpleAction **, const gchar *, GCallback>> actions = {
-        {&undoAction, "undo", G_CALLBACK(aRedo)},
-        {&redoAction, "redo", G_CALLBACK(aUndo)},
-        {&cutAction, "cut", G_CALLBACK(aCut)}
-    };
+GMenu* createMenuBar(GtkApplication* app) {
+    
+    std::vector<std::tuple<GSimpleAction **, const gchar *, GCallback>> actions = getActions();
+    
 
     for (auto &action : actions) {
         GSimpleAction **actionPtr = std::get<0>(action);
@@ -25,19 +20,26 @@ GMenu* createMenuBar(_GtkApplication* app) {
     }
 
     GMenu *menuBar = g_menu_new();
-    GMenu *menu;
     GMenuItem *menuItem;
 
     // file menu
 
-    menu = g_menu_new();
     menuItem = g_menu_item_new("File", NULL);
-    g_menu_append_item(menu, menuItem);
+    GMenu *fileMenu = g_menu_new();
+    GMenuItem *fileOpenFile = g_menu_item_new("Open File", "app.openFile");
+
+    for (GMenuItem *item : {fileOpenFile}) {
+        g_menu_append_item(fileMenu, item);
+        g_object_unref(item);
+    }
+
+    g_menu_item_set_submenu(menuItem, G_MENU_MODEL(fileMenu));
+    g_menu_append_item(menuBar, menuItem);
+    g_object_unref(fileMenu);
     g_object_unref(menuItem);
 
     // edit menu
 
-    menu = g_menu_new();
     menuItem = g_menu_item_new("Edit", NULL);
     
     GMenu *editMenu = g_menu_new();

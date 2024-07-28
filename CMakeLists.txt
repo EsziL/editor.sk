@@ -12,6 +12,7 @@ add_executable(editor.sk
     src/main.cpp
     src/menu/menuBar.cpp
     src/menu/menuBarActions.cpp
+    src/menu/menuActionsList.cpp
 )
 
 target_include_directories(editor.sk PRIVATE ${GTK4_INCLUDE_DIRS})
