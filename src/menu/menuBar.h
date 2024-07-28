@@ -3,6 +3,6 @@
 
 #include <gtk/gtk.h>
 
-GMenu* createMenuBar(_GtkApplication* app);
+GMenu* createMenuBar(GtkApplication* app);
 
 #endif // MENUBAR_H
