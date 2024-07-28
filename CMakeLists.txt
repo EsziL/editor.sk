@@ -10,9 +10,11 @@ pkg_check_modules(GTK4 REQUIRED gtk4)
 
 add_executable(editor.sk
     src/main.cpp
-    src/menu/menuBar.cpp
-    src/menu/menuBarActions.cpp
-    src/menu/menuActionsList.cpp
+    src/ui/menu/menuBar.cpp
+    src/ui/menu/menuBarActions.cpp
+    src/ui/menu/menuActionsList.cpp
+    src/ui/editor/textEditor.cpp
+    src/ui/css/cssLoader.cpp
 )
 
 target_include_directories(editor.sk PRIVATE ${GTK4_INCLUDE_DIRS})

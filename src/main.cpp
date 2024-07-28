@@ -1,4 +1,6 @@
-#include "menu/menuBar.h"
+#include "ui/menu/menuBar.h"
+#include "ui/editor/textEditor.h"
+#include "ui/css/cssLoader.h"
 #include <gtk/gtk.h>
 #include <iostream>
 #include <vector>
@@ -11,6 +13,7 @@ static void onActivate(GtkApplication* app, gpointer data) {
 
     GtkWidget *window;
 
+    initCSS();
 
     // Window init
     window = gtk_application_window_new(app);
@@ -26,15 +29,17 @@ static void onActivate(GtkApplication* app, gpointer data) {
 
     gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(window), TRUE);
 
+    // Text Editor init
+
+    GtkWidget *textEditor = createTextEditor();
+    gtk_window_set_child(GTK_WINDOW(window), textEditor);
+
     // test label
 
-    GtkWidget *label;
-
-    label = gtk_label_new("Hello, World!");
-    gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-    gtk_window_set_child(GTK_WINDOW(window), label);
-
+    // GtkWidget *label = gtk_label_new("Hello, World!");
+    // gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
+    // gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
+    // gtk_window_set_child(GTK_WINDOW(window), label);
 
     gtk_window_present(GTK_WINDOW(window));
 }
@@ -43,10 +48,11 @@ int main(int argc, char **argv) {
     GtkApplication *app;
     int status;
 
-    app = gtk_application_new("com.example.GtkApp", G_APPLICATION_DEFAULT_FLAGS);
+    app = gtk_application_new("com.eszil.editorsk", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(onActivate), NULL);
     status = g_application_run(G_APPLICATION(app), argc, argv);
     g_object_unref(app);
 
+    std::cout << "Exited with status " << status << std::endl;
     return status;
 }
