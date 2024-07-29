@@ -11,5 +11,5 @@ void aCut(GApplication* app, gpointer data) {
     std::cout << "Cut" << std::endl;
 }
 void aOpenFile(GApplication* app, gpointer data) {
-    std::cout << "Cut" << std::endl;
+    std::cout << "OpenFile" << std::endl;
 }

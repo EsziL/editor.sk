@@ -3,10 +3,32 @@
 #include "menuActionsList.h"
 #include <vector>
 #include <tuple>
+#include <string>
+#include <cctype>
+
+static std::string convertCamelCaseToTitle(const std::string& input) {
+    std::string result;
+    bool newWord = true;
+
+    for (char ch : input) {
+        if (std::isupper(ch)) {
+            if (!result.empty() && result.back() != ' ') result += ' ';
+            result += std::toupper(ch);
+        } else {
+            result += newWord ? std::toupper(ch) : ch;
+            newWord = false;
+        }
+        newWord = std::isspace(ch) || std::isupper(ch);
+    }
+    return result;
+}
 
 GMenu* createMenuBar(GtkApplication* app) {
     
     std::vector<std::tuple<GSimpleAction **, const gchar *, GCallback>> actions = getActions();
+
+    std::vector<std::string> fileMenuNames;
+    std::vector<std::string> editMenuNames;
     
 
     for (auto &action : actions) {
@@ -14,6 +36,14 @@ GMenu* createMenuBar(GtkApplication* app) {
         const gchar *actionName = std::get<1>(action);
         GCallback actionCallback = std::get<2>(action);
 
+        std::string actionNameStr = std::get<1>(action);
+        std::size_t dot = actionNameStr.find(".");
+        std::string type = actionNameStr.substr(0, dot);
+        if (type == "file") {
+            fileMenuNames.push_back(actionNameStr);
+        } else if (type == "edit") {
+            editMenuNames.push_back(actionNameStr);
+        }
         *actionPtr = g_simple_action_new(actionName, NULL);
         g_signal_connect(*actionPtr, "activate", actionCallback, NULL);
         g_action_map_add_action(G_ACTION_MAP(app), G_ACTION(*actionPtr));
@@ -26,12 +56,15 @@ GMenu* createMenuBar(GtkApplication* app) {
 
     menuItem = g_menu_item_new("File", NULL);
     GMenu *fileMenu = g_menu_new();
-    GMenuItem *fileOpenFile = g_menu_item_new("Open File", "app.openFile");
+    for (const auto &name : fileMenuNames) {
+        std::size_t dotPos = name.find('.');
+        std::string fileName = (dotPos != std::string::npos) ? name.substr(dotPos + 1) : name;
 
-    for (GMenuItem *item : {fileOpenFile}) {
-        g_menu_append_item(fileMenu, item);
-        g_object_unref(item);
+        GMenuItem *fileItem = g_menu_item_new(convertCamelCaseToTitle(fileName).c_str(), ("app." + name).c_str());
+        g_menu_append_item(fileMenu, fileItem);
+        g_object_unref(fileItem);
     }
+
 
     g_menu_item_set_submenu(menuItem, G_MENU_MODEL(fileMenu));
     g_menu_append_item(menuBar, menuItem);
@@ -41,17 +74,16 @@ GMenu* createMenuBar(GtkApplication* app) {
     // edit menu
 
     menuItem = g_menu_item_new("Edit", NULL);
-    
     GMenu *editMenu = g_menu_new();
-    GMenuItem *editUndoItem = g_menu_item_new("Undo", "app.undo");
-    GMenuItem *editRedoItem = g_menu_item_new("Redo", "app.redo");
-    GMenuItem *editCutItem = g_menu_item_new("Cut", "app.cut");
 
-    for (GMenuItem *item : {editUndoItem, editRedoItem, editCutItem}) {
-        g_menu_append_item(editMenu, item);
-        g_object_unref(item);
+    for (const auto &name : editMenuNames) {
+        std::size_t dotPos = name.find('.');
+        std::string editName = (dotPos != std::string::npos) ? name.substr(dotPos + 1) : name;
+
+        GMenuItem *editItem = g_menu_item_new(convertCamelCaseToTitle(editName).c_str(), ("app." + name).c_str());
+        g_menu_append_item(editMenu, editItem);
+        g_object_unref(editItem);
     }
-
     g_menu_item_set_submenu(menuItem, G_MENU_MODEL(editMenu));
     g_menu_append_item(menuBar, menuItem);
     g_object_unref(editMenu);

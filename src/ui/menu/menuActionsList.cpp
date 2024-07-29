@@ -11,9 +11,9 @@ std::vector<std::tuple<GSimpleAction **, const gchar *, GCallback>> getActions()
     static GSimpleAction *openFileAction;
 
     return {
-        {&undoAction, "undo", G_CALLBACK(aRedo)},
-        {&redoAction, "redo", G_CALLBACK(aUndo)},
-        {&cutAction, "cut", G_CALLBACK(aCut)},
-        {&openFileAction, "openFile", G_CALLBACK(aOpenFile)},
+        {&undoAction, "edit.undo", G_CALLBACK(aRedo)},
+        {&redoAction, "edit.redo", G_CALLBACK(aUndo)},
+        {&cutAction, "edit.cut", G_CALLBACK(aCut)},
+        {&openFileAction, "file.openFile", G_CALLBACK(aOpenFile)},
     };
 }

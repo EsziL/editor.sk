@@ -6,8 +6,6 @@
 #include <vector>
 #include <tuple>
 
-
-
 static void onActivate(GtkApplication* app, gpointer data) {
     const int WIDTH = 800;
     const int HEIGHT = 600;

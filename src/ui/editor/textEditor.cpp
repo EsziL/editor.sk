@@ -1,6 +1,7 @@
 #include "textEditor.h"
 #include <iostream>
 
+
 // 1.4 -> the ratio between height of text view and font size
 // multiple 1.4 by any number to get the height of the highlight box porportionally to the text view
 
