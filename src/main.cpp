@@ -7,6 +7,7 @@
 #include <tuple>
 
 
+
 static void onActivate(GtkApplication* app, gpointer data) {
     const int WIDTH = 800;
     const int HEIGHT = 600;
@@ -16,6 +17,7 @@ static void onActivate(GtkApplication* app, gpointer data) {
     initCSS();
 
     // Window init
+
     window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "editor.sk");
     gtk_window_set_default_size(GTK_WINDOW(window), WIDTH, HEIGHT);
@@ -23,24 +25,14 @@ static void onActivate(GtkApplication* app, gpointer data) {
     // Menu init
 
     GMenu *menuBar = createMenuBar(app);
-
     gtk_application_set_menubar(GTK_APPLICATION(app), G_MENU_MODEL(menuBar));
     g_object_unref(menuBar);
-
     gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(window), TRUE);
 
     // Text Editor init
 
     GtkWidget *textEditor = createTextEditor();
     gtk_window_set_child(GTK_WINDOW(window), textEditor);
-
-    // test label
-
-    // GtkWidget *label = gtk_label_new("Hello, World!");
-    // gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
-    // gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-    // gtk_window_set_child(GTK_WINDOW(window), label);
-
     gtk_window_present(GTK_WINDOW(window));
 }
 
