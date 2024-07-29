@@ -3,6 +3,6 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget* createTextEditor();
+GtkWidget* createTextEditor(GtkWidget *window);
 
 #endif // TEXTEDITOR_H

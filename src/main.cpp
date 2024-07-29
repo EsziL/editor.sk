@@ -27,9 +27,8 @@ static void onActivate(GtkApplication* app, gpointer data) {
     g_object_unref(menuBar);
     gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(window), TRUE);
 
-    // Text Editor init
 
-    GtkWidget *textEditor = createTextEditor();
+    GtkWidget *textEditor = createTextEditor(window);
     gtk_window_set_child(GTK_WINDOW(window), textEditor);
     gtk_window_present(GTK_WINDOW(window));
 }
