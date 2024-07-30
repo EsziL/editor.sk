@@ -2,6 +2,7 @@
 #define MENUBARACTIONS_H
 
 #include <gtk/gtk.h>
+
 #include <iostream>
 
 void aRedo(GApplication* app, gpointer data);

@@ -5,4 +5,10 @@
 
 GtkWidget* createTextEditor(GtkWidget *window);
 
+extern GtkTextBuffer *gBuffer;
+extern GtkWidget *gHighlight;
+extern GtkWidget *gOverlay;
+extern GtkWidget *gWindow;
+
+
 #endif // TEXTEDITOR_H

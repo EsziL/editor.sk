@@ -5,12 +5,11 @@
 #include <vector>
 #include "highlighter.h"
 
-struct EditorData {
-    GtkTextBuffer *buffer;
-    GtkWidget *highlight;
-    GtkWidget *overlay;
-    GtkWidget *window;
-};
+
+GtkTextBuffer *gBuffer = NULL;
+GtkWidget *gHighlight = NULL;
+GtkWidget *gOverlay = NULL;
+GtkWidget *gWindow = NULL;
 
 
 static int textViewLines(GtkTextBuffer *buffer) {
@@ -34,15 +33,14 @@ static int getCursorLine(GtkTextBuffer *buffer) {
 
 static void onEditorPositionChange(GtkTextBuffer *buffer, const GtkTextIter *location, GtkTextMark *mark, gpointer userData) {
     static int lastLine = -1;
-    EditorData *data = static_cast<EditorData*>(userData);
     int currentLine = getCursorLine(buffer);
     if (currentLine != lastLine) {
         lastLine = currentLine;
-        gtk_widget_set_margin_top(data->highlight, 28 * (currentLine - 1));
+        gtk_widget_set_margin_top(gHighlight, 28 * (currentLine - 1));
 
-        int lines = textViewLines(data->buffer);
+        int lines = textViewLines(gBuffer);
 
-        gtk_widget_set_size_request(data->overlay, -1, (gtk_widget_get_height(data->window)-62+(28*lines)));
+        gtk_widget_set_size_request(gOverlay, -1, (gtk_widget_get_height(gWindow)-62+(28*lines)));
     }
 }
 
@@ -84,13 +82,12 @@ GtkWidget* createTextEditor(GtkWidget *window) {
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrolledWindow), overlay);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-    EditorData *data = new EditorData();
-    data->buffer = buffer;
-    data->highlight = highlight;
-    data->overlay = overlay;
-    data->window = window;
+    gBuffer = buffer;
+    gHighlight = highlight;
+    gOverlay = overlay;
+    gWindow = window;
 
-    g_signal_connect(buffer, "mark-set", G_CALLBACK(onEditorPositionChange), data);
+    g_signal_connect(buffer, "mark-set", G_CALLBACK(onEditorPositionChange), buffer);
 
     SyntaxHighlighter *highlighter = new SyntaxHighlighter(buffer);
     g_signal_connect(buffer, "changed", G_CALLBACK(onTextChanged), highlighter);
