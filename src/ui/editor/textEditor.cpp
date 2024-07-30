@@ -1,8 +1,9 @@
 #include <gtk/gtk.h>
 #include <iostream>
-
-// 1.4 -> the ratio between height of text view and font size
-// multiple 1.4 by any number to get the height of the highlight box proportionally to the text view
+#include <regex>
+#include <string>
+#include <vector>
+#include "highlighter.h"
 
 struct EditorData {
     GtkTextBuffer *buffer;
@@ -45,6 +46,11 @@ static void onEditorPositionChange(GtkTextBuffer *buffer, const GtkTextIter *loc
     }
 }
 
+static void onTextChanged(GtkTextBuffer *buffer, gpointer user_data) {
+    SyntaxHighlighter *highlighter = static_cast<SyntaxHighlighter *>(user_data);
+    highlighter->highlight_text();
+}
+
 GtkWidget* createTextEditor(GtkWidget *window) {
     GtkWidget *bgr = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_add_css_class(bgr, "bgr");
@@ -78,7 +84,6 @@ GtkWidget* createTextEditor(GtkWidget *window) {
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrolledWindow), overlay);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-
     EditorData *data = new EditorData();
     data->buffer = buffer;
     data->highlight = highlight;
@@ -86,6 +91,9 @@ GtkWidget* createTextEditor(GtkWidget *window) {
     data->window = window;
 
     g_signal_connect(buffer, "mark-set", G_CALLBACK(onEditorPositionChange), data);
+
+    SyntaxHighlighter *highlighter = new SyntaxHighlighter(buffer);
+    g_signal_connect(buffer, "changed", G_CALLBACK(onTextChanged), highlighter);
 
     return scrolledWindow;
 }

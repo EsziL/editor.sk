@@ -14,6 +14,8 @@ add_executable(editor.sk
     src/ui/menu/menuBarActions.cpp
     src/ui/menu/menuActionsList.cpp
     src/ui/editor/textEditor.cpp
+    src/ui/editor/highlights.cpp
+    src/ui/editor/highlighter.cpp
     src/ui/css/cssLoader.cpp
 )
 
