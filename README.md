@@ -75,6 +75,8 @@ sudo apt install libgtk-4-dev
 
 In VSCode, click the cog icon, then go to settings.
 
+Install the CMake Tools extension if you haven't already.
+
 Search `Cmake: Generator`, and paste in `MinGW Makefiles` in the input box below.
 
 Search `Cmake: Cmake Path` and paste in the CMake executable's file path:
