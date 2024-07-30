@@ -5,7 +5,7 @@ A code editor for [SkriptLang](github.com/skriptlang/skript) made in C++ with [G
 
 This is a project I am developing to have some fun learning C++, and to maybe even help in developing in another, more obscure programming language I enjoy.
 
-## Deployment
+## Run Locally (for contributors)
 
 Releases that are ready will be found in the `releases` tab, but if you would like to contribute, feel free to follow this guide to build the project yourself:
 
@@ -37,15 +37,6 @@ pacman -S mingw-w64-x86_64-cmake
 pacman -S mingw-w64-x86_64-gtk4
 pacman -S mingw-w64-x86_64-toolchain base-devel
 ```
-At any point if it asks, type `y`, then press enter.
-
-Then, press the windows key, type `View Advanced System Settings`. Press Enter.
-
-At the bottom, click on `Environment Variables`, and in that new window, under System variables (the bottom section), click on where it says `Path` as its name, then click `Edit...`.
-
-In there, click on `New`, and paste in the `bin` directory of your MinGW installation. (If you didn't customize it, it should be under `C:\msys64\mingw64\bin`.)
-
-Press enter, then `OK` out of all of the windows.
 
 Open the command prompt, then type:
 ```bash
