@@ -5,10 +5,8 @@
 SyntaxHighlighter::SyntaxHighlighter(GtkTextBuffer *buffer) : buffer(buffer) {
     GtkTextTagTable *tag_table = gtk_text_buffer_get_tag_table(buffer);
 
-    // Retrieve syntax highlight rules
     auto highlight_rules = getSyntaxHighlight();
 
-    // Initialize tags based on the rules
     for (const auto& rule : highlight_rules) {
         GtkTextTag *tag = gtk_text_tag_new(std::get<0>(rule).c_str());
         g_object_set(tag, "foreground", std::get<1>(rule).c_str(), NULL);
@@ -29,7 +27,6 @@ void SyntaxHighlighter::highlight_text() {
     std::string str_text(text);
     g_free(text);
 
-    // Apply each pattern with its corresponding tag
     for (size_t i = 0; i < patterns.size(); ++i) {
         highlight_pattern(str_text, patterns[i], tags[i]);
     }

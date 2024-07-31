@@ -1,36 +1,46 @@
 #include "ui/menu/menuBar.h"
 #include "ui/editor/textEditor.h"
 #include "ui/css/cssLoader.h"
-#include <gtk/gtk.h>
+#include "ui/etc/error.h"
+#include "main.h"
 #include <iostream>
 #include <vector>
 #include <tuple>
+
+GtkWidget *mainWindow = NULL;
 
 static void onActivate(GtkApplication* app, gpointer data) {
     const int WIDTH = 800;
     const int HEIGHT = 600;
 
-    GtkWidget *window;
 
-    initCSS();
 
     // Window init
 
-    window = gtk_application_window_new(app);
-    gtk_window_set_title(GTK_WINDOW(window), "editor.sk");
-    gtk_window_set_default_size(GTK_WINDOW(window), WIDTH, HEIGHT);
+    mainWindow = gtk_application_window_new(app);
+    gtk_window_set_title(GTK_WINDOW(mainWindow), "editor.sk");
+    gtk_window_set_default_size(GTK_WINDOW(mainWindow), WIDTH, HEIGHT);
 
+    initCSS();
+    errorBoxInit();
     // Menu init
+
+    GtkWidget *winBox = gtk_overlay_new();
 
     GMenu *menuBar = createMenuBar(app);
     gtk_application_set_menubar(GTK_APPLICATION(app), G_MENU_MODEL(menuBar));
     g_object_unref(menuBar);
-    gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(window), TRUE);
+    gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(mainWindow), TRUE);
 
 
-    GtkWidget *textEditor = createTextEditor(window);
-    gtk_window_set_child(GTK_WINDOW(window), textEditor);
-    gtk_window_present(GTK_WINDOW(window));
+    GtkWidget *textEditor = createTextEditor(mainWindow);
+
+    gtk_overlay_set_child(GTK_OVERLAY(winBox), textEditor);
+    gtk_overlay_add_overlay(GTK_OVERLAY(winBox), gErrorBox);
+    
+    gtk_window_set_child(GTK_WINDOW(mainWindow), winBox);
+    
+    gtk_window_present(GTK_WINDOW(mainWindow));
 }
 
 int main(int argc, char **argv) {

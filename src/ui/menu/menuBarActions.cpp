@@ -1,9 +1,12 @@
 #include "menuBarActions.h"
 #include "../editor/textEditor.h"
+#include "../etc/error.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <tuple>
+
+
 
 std::tuple<std::string, int> getFileContent(GFile *file) {
     char *path = g_file_get_path(file);
@@ -11,6 +14,7 @@ std::tuple<std::string, int> getFileContent(GFile *file) {
     std::ifstream f(path);
     if (strPath.substr(strPath.length()-3) != ".sk") {
         std::cout << "Not a skript file" << std::endl;
+        showError("Not a skript file");
         return {"", 1};
     }
     if (!f.is_open()) {
@@ -27,7 +31,7 @@ std::tuple<std::string, int> getFileContent(GFile *file) {
     return {content, 0};
 }
 
-
+// this was hell to figure out, but it works
 static void
 openFileCallback(GObject *source_object, GAsyncResult *result, gpointer user_data)
 {

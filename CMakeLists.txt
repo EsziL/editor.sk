@@ -17,6 +17,7 @@ add_executable(editor.sk
     src/ui/editor/highlights.cpp
     src/ui/editor/highlighter.cpp
     src/ui/css/cssLoader.cpp
+    src/ui/etc/error.cpp
 )
 
 target_include_directories(editor.sk PRIVATE ${GTK4_INCLUDE_DIRS})
