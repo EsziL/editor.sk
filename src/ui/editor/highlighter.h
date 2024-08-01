@@ -15,10 +15,9 @@ private:
     GtkTextBuffer *buffer;
     std::vector<GtkTextTag*> tags;
     std::vector<std::regex> patterns;
+    std::pair<int, int> parseFontStyle(const std::string &style);
 
     void highlight_pattern(const std::string &text, const std::regex &pattern, GtkTextTag *tag);
 };
-
-std::vector<std::tuple<std::string, std::string, std::string>> getSyntaxHighlight();
 
 #endif // HIGHLIGHTER_H

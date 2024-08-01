@@ -6,6 +6,6 @@
 #include <tuple>
 #include <string>
 
-std::vector<std::tuple<std::string, std::string, std::string>> getSyntaxHighlight();
+std::vector<std::tuple<std::string, std::string, std::string, std::string>> getSyntaxHighlight();
 
 #endif // HIGHLIGHTS_H

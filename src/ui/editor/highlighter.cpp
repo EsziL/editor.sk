@@ -9,11 +9,29 @@ SyntaxHighlighter::SyntaxHighlighter(GtkTextBuffer *buffer) : buffer(buffer) {
 
     for (const auto& rule : highlight_rules) {
         GtkTextTag *tag = gtk_text_tag_new(std::get<0>(rule).c_str());
-        g_object_set(tag, "foreground", std::get<1>(rule).c_str(), NULL);
+        g_object_set(tag, 
+                     "foreground", std::get<1>(rule).c_str(), 
+                     "style", parseFontStyle(std::get<2>(rule)).first, 
+                     "weight", parseFontStyle(std::get<2>(rule)).second,
+                     NULL);;
         gtk_text_tag_table_add(tag_table, tag);
         tags.push_back(tag);
-        patterns.push_back(std::regex(std::get<2>(rule)));
+        patterns.push_back(std::regex(std::get<3>(rule)));
     }
+}
+
+std::pair<int, int> SyntaxHighlighter::parseFontStyle(const std::string &style) {
+    int fontStyle = PANGO_STYLE_NORMAL;
+    int fontWeight = PANGO_WEIGHT_NORMAL;
+
+    if (style.find("italic") != std::string::npos) {
+        fontStyle = PANGO_STYLE_ITALIC;
+    }
+    if (style.find("bold") != std::string::npos) {
+        fontWeight = PANGO_WEIGHT_BOLD;
+    }
+
+    return std::make_pair(fontStyle, fontWeight);
 }
 
 void SyntaxHighlighter::highlight_text() {
