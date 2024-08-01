@@ -71,8 +71,7 @@ That should be it, but if not, feel free to create an issue or pull request. (I 
 Execute these commands:
 ```bash
 sudo apt update
-sudo apt install cmake
-sudo apt install libgtk-4-dev
+sudo apt install cmake build-essential libgtk-4-dev pkg-config
 ```
 
 ### All Systems (after the former steps)
