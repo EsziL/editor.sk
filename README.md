@@ -5,6 +5,10 @@ A code editor for [SkriptLang](github.com/skriptlang/skript) made in C++ with [G
 
 This is a project I am developing to have some fun learning C++, and to maybe even help in developing in another, more obscure programming language I enjoy.
 
+All versions that I commit should at least launch and contain the basic features, but they may have bugs and I don't recommend using non-release versions for your own projects, you should only build them yourself if you're very curious or want to contribute.
+
+I will begin rolling out regular development versions, so don't worry, you will have the latest features as soon as they're ready.
+
 ## Run Locally (for contributors)
 
 Releases that are ready will be found in the `releases` tab, but if you would like to contribute, feel free to follow this guide to build the project yourself:
