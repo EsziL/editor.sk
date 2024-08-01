@@ -37,7 +37,20 @@ openFileCallback(GObject *source_object, GAsyncResult *result, gpointer user_dat
 {
     GTask *task = static_cast<GTask*>(user_data);
     GtkFileDialog *dialog = GTK_FILE_DIALOG(g_task_get_source_object(task));
-    GFile *file = gtk_file_dialog_open_finish(dialog, result, NULL);
+    GError *error = NULL;
+    GFile *file = gtk_file_dialog_open_finish(dialog, result, &error);
+
+    if (error != NULL) {
+        if (error->domain != 1887 && error->code != 2) showError(error->message);
+        g_error_free(error);
+        g_object_unref(task);
+        return;
+    }
+    if (file == NULL) {
+        g_object_unref(task);
+        return;
+    }
+
     std::tuple<std::string, int> content = getFileContent(file);
     if (std::get<1>(content) == 0) { 
         gtk_text_buffer_set_text(gBuffer, std::get<0>(content).c_str(), -1);
