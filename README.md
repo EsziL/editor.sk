@@ -9,7 +9,7 @@ All versions that I commit should at least launch and contain the basic features
 
 I will begin rolling out regular development versions, so don't worry, you will have the latest features as soon as they're ready.
 
-## Run Locally (for contributors)
+## Building (for contributors)
 
 Releases that are ready will be found in the `releases` tab, but if you would like to contribute, feel free to follow this guide to build the project yourself:
 
