@@ -1,5 +1,6 @@
 #include "highlighter.h"
 #include "highlights.h"
+#include <sstream>
 
 
 SyntaxHighlighter::SyntaxHighlighter(GtkTextBuffer *buffer) : buffer(buffer) {
@@ -9,11 +10,27 @@ SyntaxHighlighter::SyntaxHighlighter(GtkTextBuffer *buffer) : buffer(buffer) {
 
     for (const auto& rule : highlight_rules) {
         GtkTextTag *tag = gtk_text_tag_new(std::get<0>(rule).c_str());
-        g_object_set(tag, 
-                     "foreground", std::get<1>(rule).c_str(), 
-                     "style", parseFontStyle(std::get<2>(rule)).first, 
-                     "weight", parseFontStyle(std::get<2>(rule)).second,
-                     NULL);;
+
+        std::string color_str = std::get<1>(rule);
+        std::string foreground_color;
+        std::string background_color;
+
+        std::istringstream color_stream(color_str);
+        if (color_stream >> foreground_color >> background_color) {
+            g_object_set(tag, 
+                         "foreground", foreground_color.c_str(), 
+                         "background", background_color.c_str(), 
+                         "style", parseFontStyle(std::get<2>(rule)).first, 
+                         "weight", parseFontStyle(std::get<2>(rule)).second,
+                         NULL);
+        } else {
+            g_object_set(tag, 
+                         "foreground", color_str.c_str(), 
+                         "style", parseFontStyle(std::get<2>(rule)).first, 
+                         "weight", parseFontStyle(std::get<2>(rule)).second,
+                         NULL);
+        }
+
         gtk_text_tag_table_add(tag_table, tag);
         tags.push_back(tag);
         patterns.push_back(std::regex(std::get<3>(rule)));
