@@ -68,7 +68,7 @@ That should be it, but if not, feel free to create an issue or pull request. (I 
 
 ### Linux
 
-The version of GTK4 I'm using for this project is unstable, and I'd have to make a seperate guide for Debian, Ubuntu, Arch and Fedora, which is not my highest priority at the moment, considering they are all kind of messy to do.
+The version of GTK4 I'm using for this project is unstable, and I'd have to make a seperate section for Debian, Ubuntu, Arch and Fedora, which is not my highest priority at the moment, considering they are all kind of messy to do, this part of the guide is coming soon.
 
 ### All Systems (after the former steps)
 
