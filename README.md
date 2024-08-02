@@ -66,13 +66,9 @@ That should be it, but if not, feel free to create an issue or pull request. (I 
 
 **After the Linux part, there are a few steps all users are required to do, skip there.**
 
-### Linux (Ubuntu)
+### Linux
 
-Execute these commands:
-```bash
-sudo apt update
-sudo apt install cmake build-essential libgtk-4-dev pkg-config
-```
+The version of GTK4 I'm using for this project is unstable, and I'd have to make a seperate guide for Debian, Ubuntu, Arch and Fedora, which is not my highest priority at the moment, considering they are all kind of messy to do.
 
 ### All Systems (after the former steps)
 
