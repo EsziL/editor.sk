@@ -40,7 +40,7 @@ static void onEditorPositionChange(GtkTextBuffer *buffer, const GtkTextIter *loc
 
         int lines = textViewLines(gBuffer);
 
-        gtk_widget_set_size_request(gOverlay, -1, (gtk_widget_get_height(gWindow)-62+(28*lines)));
+        gtk_widget_set_size_request(gOverlay, -1, (gtk_widget_get_height(gWindow)-92+(28*lines)));
     }
 }
 

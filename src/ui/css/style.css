@@ -34,3 +34,11 @@
         transform: translate(-10px, -10px);
     }
 }
+
+.overlayFileBarEnabled {
+    transform: translateY(30px);
+}
+
+.fileBar {
+    background-color: #1f1f1f;
+}

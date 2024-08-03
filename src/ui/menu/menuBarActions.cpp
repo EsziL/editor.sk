@@ -1,6 +1,7 @@
 #include "menuBarActions.h"
 #include "../editor/textEditor.h"
 #include "../etc/error.h"
+#include "../etc/fileBar.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -13,12 +14,11 @@ std::tuple<std::string, int> getFileContent(GFile *file) {
     std::string strPath(path);
     std::ifstream f(path);
     if (strPath.substr(strPath.length()-3) != ".sk") {
-        std::cout << "Not a skript file" << std::endl;
         showError("Not a skript file");
         return {"", 1};
     }
     if (!f.is_open()) {
-        std::cout << "Failed to open file" << std::endl;
+        showError("Failed to open file");
         return {"", 1};
     }
     std::string content;
@@ -53,6 +53,7 @@ openFileCallback(GObject *source_object, GAsyncResult *result, gpointer user_dat
 
     std::tuple<std::string, int> content = getFileContent(file);
     if (std::get<1>(content) == 0) { 
+        fileBarShow();
         gtk_text_buffer_set_text(gBuffer, std::get<0>(content).c_str(), -1);
     }
 }
@@ -78,4 +79,5 @@ void aOpenFile(GApplication* app, gpointer data) {
     std::cout << "OpenFile" << std::endl;
 
     open_file_dialog(GTK_WINDOW(data));
+    
 }

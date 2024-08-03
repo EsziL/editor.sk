@@ -2,6 +2,7 @@
 #include "ui/editor/textEditor.h"
 #include "ui/css/cssLoader.h"
 #include "ui/etc/error.h"
+#include "ui/etc/fileBar.h"
 #include "main.h"
 #include <iostream>
 #include <vector>
@@ -23,23 +24,25 @@ static void onActivate(GtkApplication* app, gpointer data) {
 
     initCSS();
     errorBoxInit();
+    fileBarInit();
     // Menu init
 
     GtkWidget *winBox = gtk_overlay_new();
+    gtk_widget_set_hexpand(winBox, TRUE);
+    gtk_widget_set_vexpand(winBox, TRUE);
 
     GMenu *menuBar = createMenuBar(app);
     gtk_application_set_menubar(GTK_APPLICATION(app), G_MENU_MODEL(menuBar));
     g_object_unref(menuBar);
     gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(mainWindow), TRUE);
 
-
     GtkWidget *textEditor = createTextEditor(mainWindow);
 
     gtk_overlay_set_child(GTK_OVERLAY(winBox), textEditor);
+    gtk_overlay_add_overlay(GTK_OVERLAY(winBox), gFileBar);
     gtk_overlay_add_overlay(GTK_OVERLAY(winBox), gErrorBox);
-    
+
     gtk_window_set_child(GTK_WINDOW(mainWindow), winBox);
-    
     gtk_window_present(GTK_WINDOW(mainWindow));
 }
 
