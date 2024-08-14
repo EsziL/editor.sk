@@ -9,6 +9,8 @@ All versions that I commit should at least launch and contain the basic features
 
 I will begin rolling out regular development versions, so don't worry, you will have the latest features as soon as they're ready.
 
+Update as of August 14, 2024: I know I have only been working on this on and off, but I plan on finishing this project. That aside, I have moved my main development workstation to linux, and will only test releases on windows, full MacOS support is planned but not urgent.
+
 ## Building (for contributors)
 
 Releases that are ready will be found in the `releases` tab, but if you would like to contribute, feel free to follow this guide to build the project yourself:
