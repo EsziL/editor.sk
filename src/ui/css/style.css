@@ -35,10 +35,14 @@
     }
 }
 
-.overlayFileBarEnabled {
-    transform: translateY(30px);
-}
-
 .fileBar {
     background-color: #1f1f1f;
+    color: white;
+}
+.fileBar > * {
+    background-color: #3d3d3d;
+}
+
+.fileBarOpen {
+    transform: translateX(-30px);
 }

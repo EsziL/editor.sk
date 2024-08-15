@@ -1,0 +1,27 @@
+# sample pseudocode for testing how files interact and how syntax highlighting works
+
+# this is a comment
+
+###
+this
+is
+a
+multiline
+comment
+###
+
+on move:
+    if player is condition:
+        loop 5 times:
+            do something
+            break
+    cancel event
+    exit
+
+function something(a: num, b: string) :: int:
+    return "%{_a}%"+{_b}
+
+every 1 year:
+    loop all players:
+        damage loop-player by 1+2*3/4^5
+        do this if cond else do that

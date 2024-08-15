@@ -1,26 +1,24 @@
 #include "menuBar.h"
-#include "menuBarActions.h"
 #include "menuActionsList.h"
 #include <vector>
 #include <tuple>
 #include <string>
 #include <cctype>
 
-static std::string convertCamelCaseToTitle(const std::string& input) {
-    std::string result;
-    bool newWord = true;
+std::string camelToTitle(std::string camelCase) {
+    std::string titleCase;
+    bool isFirstChar = true;
 
-    for (char ch : input) {
-        if (std::isupper(ch)) {
-            if (!result.empty() && result.back() != ' ') result += ' ';
-            result += std::toupper(ch);
+    for (char c : camelCase) {
+        if (isFirstChar || std::isupper(c)) {
+            titleCase += std::toupper(c);
+            isFirstChar = false;
         } else {
-            result += newWord ? std::toupper(ch) : ch;
-            newWord = false;
+            titleCase += std::tolower(c);
         }
-        newWord = std::isspace(ch) || std::isupper(ch);
     }
-    return result;
+
+    return titleCase;
 }
 
 GMenu* createMenuBar(GtkApplication* app) {
@@ -60,7 +58,7 @@ GMenu* createMenuBar(GtkApplication* app) {
         std::size_t dotPos = name.find('.');
         std::string fileName = (dotPos != std::string::npos) ? name.substr(dotPos + 1) : name;
 
-        GMenuItem *fileItem = g_menu_item_new(convertCamelCaseToTitle(fileName).c_str(), ("app." + name).c_str());
+        GMenuItem *fileItem = g_menu_item_new(camelToTitle(fileName).c_str(), ("app." + name).c_str());
         g_menu_append_item(fileMenu, fileItem);
         g_object_unref(fileItem);
     }
@@ -80,7 +78,7 @@ GMenu* createMenuBar(GtkApplication* app) {
         std::size_t dotPos = name.find('.');
         std::string editName = (dotPos != std::string::npos) ? name.substr(dotPos + 1) : name;
 
-        GMenuItem *editItem = g_menu_item_new(convertCamelCaseToTitle(editName).c_str(), ("app." + name).c_str());
+        GMenuItem *editItem = g_menu_item_new(camelToTitle(editName).c_str(), ("app." + name).c_str());
         g_menu_append_item(editMenu, editItem);
         g_object_unref(editItem);
     }

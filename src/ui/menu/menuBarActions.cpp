@@ -2,6 +2,7 @@
 #include "../editor/textEditor.h"
 #include "../etc/error.h"
 #include "../etc/fileBar.h"
+#include <filesystem>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -9,11 +10,9 @@
 
 
 
-std::tuple<std::string, int> getFileContent(GFile *file) {
-    char *path = g_file_get_path(file);
-    std::string strPath(path);
+std::tuple<std::string, int> getFileContent(std::string path) {
     std::ifstream f(path);
-    if (strPath.substr(strPath.length()-3) != ".sk") {
+    if (path.substr(path.length()-3) != ".sk") {
         showError("Not a skript file");
         return {"", 1};
     }
@@ -51,9 +50,11 @@ openFileCallback(GObject *source_object, GAsyncResult *result, gpointer user_dat
         return;
     }
 
-    std::tuple<std::string, int> content = getFileContent(file);
+    std::filesystem::path filePath(g_file_get_path(file));
+    std::tuple<std::string, int> content = getFileContent(filePath.string());
     if (std::get<1>(content) == 0) { 
         fileBarShow();
+        fileBarOpenFile(filePath.string());
         gtk_text_buffer_set_text(gBuffer, std::get<0>(content).c_str(), -1);
     }
 }

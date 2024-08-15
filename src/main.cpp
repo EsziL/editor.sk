@@ -5,8 +5,6 @@
 #include "ui/etc/fileBar.h"
 #include "main.h"
 #include <iostream>
-#include <vector>
-#include <tuple>
 
 GtkWidget *mainWindow = NULL;
 
@@ -22,6 +20,7 @@ static void onActivate(GtkApplication* app, gpointer data) {
     gtk_window_set_title(GTK_WINDOW(mainWindow), "editor.sk");
     gtk_window_set_default_size(GTK_WINDOW(mainWindow), WIDTH, HEIGHT);
 
+    GtkWidget *textEditor = createTextEditor(mainWindow);
     initCSS();
     errorBoxInit();
     fileBarInit();
@@ -36,7 +35,6 @@ static void onActivate(GtkApplication* app, gpointer data) {
     g_object_unref(menuBar);
     gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(mainWindow), TRUE);
 
-    GtkWidget *textEditor = createTextEditor(mainWindow);
 
     gtk_overlay_set_child(GTK_OVERLAY(winBox), textEditor);
     gtk_overlay_add_overlay(GTK_OVERLAY(winBox), gFileBar);
