@@ -4,7 +4,6 @@
 #include "gtk/gtk.h"
 #include "pango/pango-layout.h"
 #include <filesystem>
-#include <iostream>
 
 GtkWidget* gFileBar = NULL;
 int fileCount = 0;
@@ -16,7 +15,6 @@ void fileBarInit() {
 }
 
 void fileBarShow() {
-    gtk_widget_remove_css_class(gWindow, "fileBarOpen");
     gtk_widget_set_visible(gFileBar, TRUE);
     gtk_widget_set_size_request(gFileBar, -1, 30);
     gtk_widget_set_hexpand(gFileBar, TRUE);
@@ -26,6 +24,7 @@ void fileBarShow() {
 }
 
 void fileBarClose() {
+    gtk_widget_remove_css_class(gWindow, "fileBarOpen");
     fileBarInit();   
 }
 

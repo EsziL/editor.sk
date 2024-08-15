@@ -1,8 +1,5 @@
 #include <gtk/gtk.h>
 #include <iostream>
-#include <regex>
-#include <string>
-#include <vector>
 #include "highlighter.h"
 
 
@@ -36,7 +33,8 @@ static void onEditorPositionChange(GtkTextBuffer *buffer, const GtkTextIter *loc
     int currentLine = getCursorLine(buffer);
     if (currentLine != lastLine) {
         lastLine = currentLine;
-        gtk_widget_set_margin_top(gHighlight, 28 * (currentLine - 1));
+        std::cout << "currentLine: " << currentLine << std::endl;
+        gtk_widget_set_margin_top(gHighlight, 25 * (currentLine - 1));
 
         int lines = textViewLines(gBuffer);
 

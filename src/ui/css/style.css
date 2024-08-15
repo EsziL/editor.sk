@@ -44,5 +44,5 @@
 }
 
 .fileBarOpen {
-    transform: translateX(-30px);
+    transform: translateX(30px);
 }
