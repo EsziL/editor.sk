@@ -56,7 +56,7 @@ bool download_css_file(const std::string& url, const std::string& local_path) {
 
         std::ofstream file(local_path, std::ios::binary);
         if (!file.is_open()) {
-            std::cerr << "Failed to open file for writing: " << local_path << std::endl;
+            showError("Failed to open file for writing: " + local_path);
             return false;
         }
 
@@ -72,8 +72,7 @@ bool download_css_file(const std::string& url, const std::string& local_path) {
 
             res = curl_easy_perform(curl);
             if (res != CURLE_OK) {
-                std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
-                curl_easy_cleanup(curl);
+                showError("curl_easy_perform() failed: " + std::string(curl_easy_strerror(res)));
                 return false;
             }
 
@@ -83,7 +82,7 @@ bool download_css_file(const std::string& url, const std::string& local_path) {
         file.close();
         return true;
     } catch (const std::exception& e) {
-        std::cerr << "Error downloading CSS file: " << e.what() << std::endl;
+        showError("Error downloading CSS file: " + std::string(e.what()));
         return false;
     }
 }
