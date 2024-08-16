@@ -9,6 +9,7 @@ extern GtkTextBuffer *gBuffer;
 extern GtkWidget *gHighlight;
 extern GtkWidget *gOverlay;
 extern GtkWidget *gWindow;
+extern GtkWidget *gTextView;
 
 
 #endif // TEXTEDITOR_H

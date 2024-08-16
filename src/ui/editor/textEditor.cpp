@@ -7,6 +7,7 @@ GtkTextBuffer *gBuffer = NULL;
 GtkWidget *gHighlight = NULL;
 GtkWidget *gOverlay = NULL;
 GtkWidget *gWindow = NULL;
+GtkWidget *gTextView = NULL;
 
 
 static int textViewLines(GtkTextBuffer *buffer) {
@@ -33,12 +34,11 @@ static void onEditorPositionChange(GtkTextBuffer *buffer, const GtkTextIter *loc
     int currentLine = getCursorLine(buffer);
     if (currentLine != lastLine) {
         lastLine = currentLine;
-        std::cout << "currentLine: " << currentLine << std::endl;
         gtk_widget_set_margin_top(gHighlight, 25 * (currentLine - 1));
 
         int lines = textViewLines(gBuffer);
 
-        gtk_widget_set_size_request(gOverlay, -1, (gtk_widget_get_height(gWindow)-92+(28*lines)));
+        gtk_widget_set_size_request(gOverlay, -1, (gtk_widget_get_height(gWindow)+(25*(lines-1))));
     }
 }
 
@@ -84,6 +84,7 @@ GtkWidget* createTextEditor(GtkWidget *window) {
     gHighlight = highlight;
     gOverlay = overlay;
     gWindow = window;
+    gTextView = textView;
 
     g_signal_connect(buffer, "mark-set", G_CALLBACK(onEditorPositionChange), buffer);
 
