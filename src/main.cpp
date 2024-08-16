@@ -21,9 +21,9 @@ static void onActivate(GtkApplication* app, gpointer data) {
     gtk_window_set_default_size(GTK_WINDOW(mainWindow), WIDTH, HEIGHT);
 
     GtkWidget *textEditor = createTextEditor(mainWindow);
-    initCSS();
     errorBoxInit();
     fileBarInit();
+    initCSS();
     // Menu init
 
     GtkWidget *winBox = gtk_overlay_new();

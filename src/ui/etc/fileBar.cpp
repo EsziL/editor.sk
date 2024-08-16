@@ -44,4 +44,5 @@ void fileBarOpenFile(std::string path) {
     gtk_box_append(GTK_BOX(gFileBar), file);
     pango_layout_get_size(gtk_label_get_layout(GTK_LABEL(label)), &width, NULL);
     gtk_widget_set_size_request(file, (width/PANGO_SCALE)*1.5, 30);
+    
 }
