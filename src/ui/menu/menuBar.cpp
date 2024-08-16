@@ -11,6 +11,9 @@ std::string camelToTitle(std::string camelCase) {
 
     for (char c : camelCase) {
         if (isFirstChar || std::isupper(c)) {
+            if (std::isupper(c)) {
+                titleCase += ' ';
+            }
             titleCase += std::toupper(c);
             isFirstChar = false;
         } else {
