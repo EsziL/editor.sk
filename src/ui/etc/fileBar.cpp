@@ -1,8 +1,12 @@
 #include "fileBar.h"
 #include "../editor/textEditor.h"
 #include "../menu/menuBarActions.h"
+#include "../../util/loadFile.h"
 #include "../../util/util.h"
+#include "gtk/gtk.h"
+#include "gtk/gtkshortcut.h"
 #include <filesystem>
+#include <fstream>
 
 GtkWidget* gFileBar = NULL;
 int fileCount = 0;
@@ -35,6 +39,7 @@ void fileBarClose() {
 
 void fileBarOpenFile(std::string path) {
     fileCount++;
+    
     GtkWidget *file = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
     gtk_widget_set_halign(file, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(file, GTK_ALIGN_FILL);
@@ -60,10 +65,31 @@ void fileBarOpenFile(std::string path) {
 
     currentPath = path;
 
+    GtkGesture *controller = gtk_gesture_click_new();
+    gtk_widget_add_controller(file, GTK_EVENT_CONTROLLER(controller));
+
     g_signal_connect(close, "clicked", G_CALLBACK(fileBarCloseFile_byButton), g_strdup(path.c_str()));
+    g_signal_connect(controller, "pressed", G_CALLBACK(fileBarSwitchFile_byButton), g_strdup(path.c_str()));
 }
 
+void fileBarSwitchFile_byButton(GtkGestureClick *gesture, int n_press, double x, double y, gpointer user_data) {
+    const char *path = static_cast<const char*>(user_data);
+    std::string pathStr(path);  
+    if (pathStr == currentPath || fileCount < 2) return;
+    fileBarSwitchFile(path);
+}
 
+void fileBarSwitchFile(std::string path) {
+    loadFileIntoDisk();
+    std::string file = getFileFromDisk(std::filesystem::path(path).filename().string());
+    currentPath = path;
+    if (file == "") {
+        openFile(path, false);
+    } else {
+        gtk_text_buffer_set_text(gBuffer, file.c_str(), -1);
+        gtk_button_set_label(GTK_BUTTON(get_nth_child(std::next(fileBarMap.begin(), 0)->second, 1)), "×");
+    }
+}
 
 void fileBarCloseFile_byButton(GtkButton *close, gpointer user_data) {
     std::string path = static_cast<const char*>(user_data);

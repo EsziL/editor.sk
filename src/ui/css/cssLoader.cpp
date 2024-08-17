@@ -20,7 +20,8 @@
 
 namespace fs = std::filesystem;
 
-std::string get_config_path() {
+
+static std::string get_config_path() {
     #ifdef _WIN32
         // Windows
         char* app_data_dir = getenv("APPDATA");
@@ -44,6 +45,7 @@ std::string get_config_path() {
         return home_dir + "/.config/editor.sk/";
     #endif
 }
+std::string config_path = get_config_path();
 
 std::string extractVersion(const std::string& input) {
     std::regex versionRegex(R"(\/\*\s*VERSION:\s*(.*?)\s*\*\/)");
@@ -147,7 +149,7 @@ void initCSS() {
     }
     )");
     gtk_css_provider_load_from_string(cssProvider, load_css_style().c_str());
-    const std::string stylePath = (fs::path(get_config_path() + "default.css").parent_path() / "style.css").string();
+    const std::string stylePath = get_config_path()+"style.css";
     if (fs::exists(stylePath)) {
         gtk_css_provider_load_from_path(cssProvider, stylePath.c_str());
     }

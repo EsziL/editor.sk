@@ -5,6 +5,7 @@
 #include <string>
 
 void initCSS();
-std::string get_config_path();
+static std::string get_config_path();
+extern std::string config_path;
 
 #endif // CSSLOADER_H

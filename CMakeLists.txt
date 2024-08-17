@@ -22,6 +22,7 @@ add_executable(editor.sk
     src/ui/etc/error.cpp
     src/ui/etc/fileBar.cpp
     src/util/util.cpp
+    src/util/loadFile.cpp
 )
 
 target_include_directories(editor.sk PRIVATE ${GTK4_INCLUDE_DIRS} ${CURL_INCLUDE_DIRS})

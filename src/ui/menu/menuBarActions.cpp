@@ -3,6 +3,7 @@
 #include "../etc/error.h"
 #include "../etc/fileBar.h"
 #include "../../util/util.h"
+#include "../../util/loadFile.h"
 #include <filesystem>
 #include <iostream>
 #include <fstream>
@@ -62,10 +63,11 @@ void openFile(std::string path, bool isNew) {
         if (fileCount == 0) {
             fileBarShow();
         } if (isNew) {
+            if (fileCount > 0) loadFileIntoDisk();
             fileBarOpenFile(path);
         }
         gtk_text_buffer_set_text(gBuffer, std::get<0>(content).c_str(), -1);
-        GtkWidget *close = get_nth_child(std::next(fileBarMap.begin(), 0)->second, 1);
+        GtkWidget *close = get_nth_child(std::next(fileBarMap.begin(), 0)->second, 1); 
         gtk_button_set_label(GTK_BUTTON(close), "×");
 
     }

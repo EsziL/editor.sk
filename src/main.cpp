@@ -14,24 +14,11 @@ std::string version = "alpha-1.0.1";
 
 static gboolean on_key_pressed(GtkEventController* controller, guint keyval, guint keycode, GdkModifierType state, gpointer user_data) {
     if ((state & GDK_CONTROL_MASK) && keyval == GDK_KEY_s && fileCount > 0) {
-        GtkWidget *close = get_nth_child(std::next(fileBarMap.begin(), 0)->second, 1);
+        GtkWidget *close = get_nth_child(std::next(fileBarMap.begin(), 0)->second, 1); 
 
         gtk_button_set_label(GTK_BUTTON(close), "×");
 
-        std::string contents;
-        GtkTextIter start, end;
-        gtk_text_buffer_get_bounds(gBuffer, &start, &end);
-        contents = gtk_text_buffer_get_text(gBuffer, &start, &end, false);
-
-        std::string filename = currentPath;
-        std::ofstream file(filename, std::ios::out | std::ios::trunc);
-        if (file.is_open()) {
-            file << contents;
-            file.close();
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+        save_text_to_file(gBuffer, currentPath);
     }
     return FALSE;
 }
