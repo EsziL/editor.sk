@@ -82,7 +82,7 @@ GtkWidget* createTextEditor(GtkWidget *window) {
     gBuffer = buffer;
     gHighlight = highlight;
     gOverlay = overlay;
-    gWindow = window;
+    gWindow = scrolledWindow;
     gTextView = textView;
 
     g_signal_connect(buffer, "mark-set", G_CALLBACK(onEditorPositionChange), buffer);

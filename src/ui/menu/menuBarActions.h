@@ -9,5 +9,6 @@ void aRedo(GApplication* app, gpointer data);
 void aUndo(GApplication* app, gpointer data);
 void aCut(GApplication* app, gpointer data);
 void aOpenFile(GApplication* app, gpointer data);
+void openFile(std::string path);
 
 #endif // MENUBARACTIONS_H
