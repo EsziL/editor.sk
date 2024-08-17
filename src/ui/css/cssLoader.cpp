@@ -3,12 +3,14 @@
 #include "gtk/gtkcssprovider.h"
 #include <curl/curl.h>
 #include "../../util/util.h"
+#include "../../main.h"
 
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <iterator>
+#include <regex>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -41,6 +43,17 @@ std::string get_config_path() {
         }
         return home_dir + "/.config/editor.sk/default.css";
     #endif
+}
+
+std::string extractVersion(const std::string& input) {
+    std::regex versionRegex(R"(\/\*\s*VERSION:\s*(.*?)\s*\*\/)");
+    std::smatch match;
+
+    if (std::regex_search(input, match, versionRegex) && match.size() > 1) {
+        return match[1];
+    }
+
+    return "";
 }
 
 size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
@@ -89,13 +102,24 @@ bool download_css_file(const std::string& url, const std::string& local_path) {
 
 std::string load_css_style() {
     std::string config_path = get_config_path();
+    const std::string remote_url = "https://raw.githubusercontent.com/EsziL/editor.sk/main/src/ui/css/default.css";
 
     if (fs::exists(config_path)) {
         std::ifstream file(config_path, std::ios::binary);
         std::string css_style((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        if (extractVersion(css_style) != version) {
+            showError("CSS file is outdated. Downloading new version...");
+            if (download_css_file(remote_url, config_path)) {
+                std::ifstream file(config_path, std::ios::binary);
+                std::string css_style((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+                return css_style;
+            } else {
+                showError("Something went wrong while downloading the CSS file. This is probably because you are offline.");
+                return "";
+            }
+        } 
         return css_style;
     } else {
-        const std::string remote_url = "https://raw.githubusercontent.com/EsziL/editor.sk/main/src/ui/css/default.css";
         showError("Default CSS config file not found. Downloading...");
 
         if (download_css_file(remote_url, config_path)) {
