@@ -2,6 +2,7 @@
 #include "../editor/textEditor.h"
 #include "../etc/error.h"
 #include "../etc/fileBar.h"
+#include "../../util/util.h"
 #include <filesystem>
 #include <iostream>
 #include <fstream>
@@ -52,7 +53,6 @@ openFileCallback(GObject *source_object, GAsyncResult *result, gpointer user_dat
 
     std::filesystem::path filePath(g_file_get_path(file));
     openFile(filePath.string(), true);
-    
 }
 
 
@@ -65,6 +65,9 @@ void openFile(std::string path, bool isNew) {
             fileBarOpenFile(path);
         }
         gtk_text_buffer_set_text(gBuffer, std::get<0>(content).c_str(), -1);
+        GtkWidget *close = get_nth_child(std::next(fileBarMap.begin(), 0)->second, 1);
+        gtk_button_set_label(GTK_BUTTON(close), "×");
+
     }
 }
 

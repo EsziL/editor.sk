@@ -25,23 +25,23 @@ std::string get_config_path() {
         // Windows
         char* app_data_dir = getenv("APPDATA");
         if (app_data_dir == nullptr) {
-            return ".config/editor.sk/default.css";
+            return ".config/editor.sk/";
         }
-        return std::string(app_data_dir) + "\\editor.sk\\default.css";
+        return std::string(app_data_dir) + "\\editor.sk\\";
     #elif __APPLE__
         // macOS
         std::string home_dir = std::getenv("HOME");
         if (home_dir.empty()) {
-            return ".config/editor.sk/default.css";
+            return ".config/editor.sk/";
         }
-        return home_dir + "/Library/Application Support/editor.sk/default.css";
+        return home_dir + "/Library/Application Support/editor.sk/";
     #else
         // Linux
         std::string home_dir = std::getenv("HOME");
         if (home_dir.empty()) {
-            return ".config/editor.sk/default.css";
+            return ".config/editor.sk/";
         }
-        return home_dir + "/.config/editor.sk/default.css";
+        return home_dir + "/.config/editor.sk/";
     #endif
 }
 
@@ -101,7 +101,7 @@ bool download_css_file(const std::string& url, const std::string& local_path) {
 }
 
 std::string load_css_style() {
-    std::string config_path = get_config_path();
+    std::string config_path = get_config_path() + "default.css";
     const std::string remote_url = "https://raw.githubusercontent.com/EsziL/editor.sk/main/src/ui/css/default.css";
 
     if (fs::exists(config_path)) {
@@ -147,7 +147,7 @@ void initCSS() {
     }
     )");
     gtk_css_provider_load_from_string(cssProvider, load_css_style().c_str());
-    const std::string stylePath = (fs::path(get_config_path()).parent_path() / "style.css").string();
+    const std::string stylePath = (fs::path(get_config_path() + "default.css").parent_path() / "style.css").string();
     if (fs::exists(stylePath)) {
         gtk_css_provider_load_from_path(cssProvider, stylePath.c_str());
     }

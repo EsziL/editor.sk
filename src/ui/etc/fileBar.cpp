@@ -3,14 +3,12 @@
 #include "../menu/menuBarActions.h"
 #include "../../util/util.h"
 #include <filesystem>
-#include <map>
 
 GtkWidget* gFileBar = NULL;
 int fileCount = 0;
+std::string currentPath = "";
 
 std::map<std::string, GtkWidget*> fileBarMap;
-
-
 
 void fileBarInit() {
     gFileBar = gtk_flow_box_new();
@@ -60,6 +58,8 @@ void fileBarOpenFile(std::string path) {
 
     fileBarMap[path] = file;
 
+    currentPath = path;
+
     g_signal_connect(close, "clicked", G_CALLBACK(fileBarCloseFile_byButton), g_strdup(path.c_str()));
 }
 
@@ -71,9 +71,9 @@ void fileBarCloseFile_byButton(GtkButton *close, gpointer user_data) {
 }
 
 void fileBarCloseFile(std::string path) {
-    gtk_flow_box_remove(GTK_FLOW_BOX(gFileBar), fileBarMap[path]);  
-    fileBarMap.erase(path);
     fileCount--;
+    gtk_flow_box_remove(GTK_FLOW_BOX(gFileBar), fileBarMap[path]);
+    fileBarMap.erase(path);
     if (fileCount <= 0) {
         fileBarClose();
         gtk_text_buffer_set_text(gBuffer, "", -1);

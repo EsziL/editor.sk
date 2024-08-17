@@ -1,5 +1,7 @@
 #include <gtk/gtk.h>
 #include "highlighter.h"
+#include "../etc/fileBar.h"
+#include "../../util/util.h"
 
 
 GtkTextBuffer *gBuffer = NULL;
@@ -44,6 +46,10 @@ static void onEditorPositionChange(GtkTextBuffer *buffer, const GtkTextIter *loc
 static void onTextChanged(GtkTextBuffer *buffer, gpointer user_data) {
     SyntaxHighlighter *highlighter = static_cast<SyntaxHighlighter *>(user_data);
     highlighter->highlight_text();
+
+    GtkWidget *close = get_nth_child(std::next(fileBarMap.begin(), 0)->second, 1);
+    gtk_button_set_label(GTK_BUTTON(close), "●");  
+
 }
 
 GtkWidget* createTextEditor(GtkWidget *window) {
