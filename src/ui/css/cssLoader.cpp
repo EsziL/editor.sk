@@ -147,9 +147,10 @@ void initCSS() {
     }
     )");
     gtk_css_provider_load_from_string(cssProvider, load_css_style().c_str());
-    std::basic_string<char> style = *std::prev(split(get_config_path(), '/').end());
-    if (fs::exists(style)) {
-        gtk_css_provider_load_from_path(cssProvider, style.c_str());
+    const std::string stylePath = (fs::path(get_config_path()).parent_path() / "style.css").string();
+    std::cout << stylePath << std::endl;
+    if (fs::exists(stylePath)) {
+        gtk_css_provider_load_from_path(cssProvider, stylePath.c_str());
     }
     gtk_style_context_add_provider_for_display(gdk_display_get_default(), GTK_STYLE_PROVIDER(cssProvider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 }
