@@ -1,11 +1,7 @@
 #include "fileBar.h"
-#include "glib-object.h"
-#include "glib.h"
-#include "glibconfig.h"
 #include "../editor/textEditor.h"
 #include "../menu/menuBarActions.h"
 #include "../../util/util.h"
-#include "gtk/gtk.h"
 #include <filesystem>
 #include <map>
 
@@ -17,9 +13,12 @@ std::map<std::string, GtkWidget*> fileBarMap;
 
 
 void fileBarInit() {
-    gFileBar = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gFileBar = gtk_flow_box_new();
     gtk_widget_set_visible(gFileBar, FALSE);
+    gtk_flow_box_set_max_children_per_line(GTK_FLOW_BOX(gFileBar), 10);
+    gtk_flow_box_set_column_spacing(GTK_FLOW_BOX(gFileBar), 1);
 }
+
 
 void fileBarShow() {
     gtk_widget_set_visible(gFileBar, TRUE);
@@ -38,9 +37,8 @@ void fileBarClose() {
 
 void fileBarOpenFile(std::string path) {
     fileCount++;
-    GtkWidget *file = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-    int width;
-    gtk_widget_set_halign(file, GTK_ALIGN_START);
+    GtkWidget *file = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+    gtk_widget_set_halign(file, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(file, GTK_ALIGN_FILL);
     std::filesystem::path filePath(path);
     GtkWidget *label = gtk_label_new(filePath.filename().string().c_str());
@@ -49,14 +47,12 @@ void fileBarOpenFile(std::string path) {
     gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
     gtk_box_append(GTK_BOX(file), label);
-    gtk_box_append(GTK_BOX(gFileBar), file);
-    pango_layout_get_size(gtk_label_get_layout(GTK_LABEL(label)), &width, NULL);
-    gtk_widget_set_size_request(file, (width/PANGO_SCALE)*1.75, 30);
+    gtk_flow_box_insert(GTK_FLOW_BOX(gFileBar), file, -1);
     
     GtkWidget *close = gtk_button_new();
     gtk_widget_set_halign(close, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(close, GTK_ALIGN_CENTER);
-    gtk_widget_set_hexpand(close, TRUE);
+    gtk_widget_set_hexpand(close, FALSE);
     gtk_widget_set_vexpand(close, TRUE);
     gtk_button_set_label(GTK_BUTTON(close), "×");
     gtk_widget_add_css_class(close, "fileBarClose");
@@ -65,8 +61,9 @@ void fileBarOpenFile(std::string path) {
     fileBarMap[path] = file;
 
     g_signal_connect(close, "clicked", G_CALLBACK(fileBarCloseFile_byButton), g_strdup(path.c_str()));
-
 }
+
+
 
 void fileBarCloseFile_byButton(GtkButton *close, gpointer user_data) {
     std::string path = static_cast<const char*>(user_data);
@@ -74,7 +71,7 @@ void fileBarCloseFile_byButton(GtkButton *close, gpointer user_data) {
 }
 
 void fileBarCloseFile(std::string path) {
-    gtk_box_remove(GTK_BOX(gFileBar), fileBarMap[path]);
+    gtk_flow_box_remove(GTK_FLOW_BOX(gFileBar), fileBarMap[path]);  
     fileBarMap.erase(path);
     fileCount--;
     if (fileCount <= 0) {
