@@ -3,10 +3,7 @@
 #include "../menu/menuBarActions.h"
 #include "../../util/loadFile.h"
 #include "../../util/util.h"
-#include "gtk/gtk.h"
-#include "gtk/gtkshortcut.h"
 #include <filesystem>
-#include <fstream>
 
 GtkWidget* gFileBar = NULL;
 int fileCount = 0;

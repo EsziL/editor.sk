@@ -7,7 +7,6 @@
 #include "main.h"
 #include <curl/curl.h>
 #include <iostream>
-#include <fstream>
 
 GtkWidget *mainWindow = NULL;
 std::string version = "alpha-1.0.1";

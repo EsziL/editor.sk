@@ -1,6 +1,5 @@
 #include "cssLoader.h"
 #include "../etc/error.h"
-#include "gtk/gtkcssprovider.h"
 #include <curl/curl.h>
 #include "../../util/util.h"
 #include "../../main.h"

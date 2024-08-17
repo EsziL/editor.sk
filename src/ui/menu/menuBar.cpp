@@ -1,28 +1,10 @@
 #include "menuBar.h"
 #include "menuActionsList.h"
+#include "../../util/util.h"
 #include <vector>
 #include <tuple>
 #include <string>
 #include <cctype>
-
-std::string camelToTitle(std::string camelCase) {
-    std::string titleCase;
-    bool isFirstChar = true;
-
-    for (char c : camelCase) {
-        if (isFirstChar || std::isupper(c)) {
-            if (std::isupper(c)) {
-                titleCase += ' ';
-            }
-            titleCase += std::toupper(c);
-            isFirstChar = false;
-        } else {
-            titleCase += std::tolower(c);
-        }
-    }
-
-    return titleCase;
-}
 
 GMenu* createMenuBar(GtkApplication* app) {
     
