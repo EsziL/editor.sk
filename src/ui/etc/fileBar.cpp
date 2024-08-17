@@ -2,6 +2,7 @@
 #include "glibconfig.h"
 #include "../editor/textEditor.h"
 #include "gtk/gtk.h"
+#include "gtk/gtkshortcut.h"
 #include "pango/pango-layout.h"
 #include <filesystem>
 
@@ -45,4 +46,15 @@ void fileBarOpenFile(std::string path) {
     pango_layout_get_size(gtk_label_get_layout(GTK_LABEL(label)), &width, NULL);
     gtk_widget_set_size_request(file, (width/PANGO_SCALE)*1.5, 30);
     
+    GtkWidget *close = gtk_button_new();
+    gtk_widget_set_halign(close, GTK_ALIGN_END);
+    gtk_widget_set_valign(close, GTK_ALIGN_CENTER);
+    gtk_widget_set_hexpand(close, TRUE);
+    gtk_widget_set_vexpand(close, TRUE);
+    gtk_button_set_label(GTK_BUTTON(close), "×");
+    gtk_widget_add_css_class(close, "fileBarClose");
+
+    // g_signal_connect(close, "clicked", G_CALLBACK(onCloseFile), file);
+    gtk_box_append(GTK_BOX(file), close);
+
 }

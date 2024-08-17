@@ -1,4 +1,4 @@
-/* VERSION: alpha-1.0.0*/
+/* VERSION: alpha-1.0.0 */
 
 
 .textview {
@@ -17,8 +17,6 @@
 .highlight {
     background-color: #3d3d3d;
 }
-
-
 
 @keyframes swoop-in {
     from {
@@ -39,4 +37,11 @@
 
 .fileBarOpen {
     transform: translateX(30px);
+}
+
+.fileBarClose {
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+
 }
