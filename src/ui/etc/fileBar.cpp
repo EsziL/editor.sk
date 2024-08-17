@@ -81,6 +81,6 @@ void fileBarCloseFile(std::string path) {
         fileBarClose();
         gtk_text_buffer_set_text(gBuffer, "", -1);
     } else {
-        openFile(std::next(fileBarMap.begin(), 0)->first);
+        openFile(std::next(fileBarMap.begin(), 0)->first, false);
     }   
 }

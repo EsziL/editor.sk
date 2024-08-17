@@ -51,16 +51,19 @@ openFileCallback(GObject *source_object, GAsyncResult *result, gpointer user_dat
     }
 
     std::filesystem::path filePath(g_file_get_path(file));
-    openFile(filePath.string());
+    openFile(filePath.string(), true);
     
 }
 
 
-void openFile(std::string path) {
+void openFile(std::string path, bool isNew) {
     std::tuple<std::string, int> content = getFileContent(path);
     if (std::get<1>(content) == 0) { 
-        fileBarShow();
-        fileBarOpenFile(path);
+        if (fileCount == 0) {
+            fileBarShow();
+        } if (isNew) {
+            fileBarOpenFile(path);
+        }
         gtk_text_buffer_set_text(gBuffer, std::get<0>(content).c_str(), -1);
     }
 }

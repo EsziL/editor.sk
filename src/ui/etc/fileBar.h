@@ -11,5 +11,6 @@ void fileBarOpenFile(std::string path);
 void fileBarCloseFile_byButton(GtkButton *close, gpointer user_data);
 void fileBarCloseFile(std::string path);
 extern GtkWidget* gFileBar;
+extern int fileCount;
 
 #endif // FILEBAR_H
