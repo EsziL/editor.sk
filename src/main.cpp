@@ -7,7 +7,7 @@
 #include <iostream>
 
 GtkWidget *mainWindow = NULL;
-std::string version = "alpha-1.0.0";
+std::string version = "alpha-1.0.1";
 
 static void onActivate(GtkApplication* app, gpointer data) {
     const int WIDTH = 800;
