@@ -4,6 +4,25 @@
 #include <fstream>
 #include <string>
 
+std::string camelToTitle(std::string camelCase) {
+    std::string titleCase;
+    bool isFirstChar = true;
+
+    for (char c : camelCase) {
+        if (isFirstChar || std::isupper(c)) {
+            if (std::isupper(c)) {
+                titleCase += ' ';
+            }
+            titleCase += std::toupper(c);
+            isFirstChar = false;
+        } else {
+            titleCase += std::tolower(c);
+        }
+    }
+
+    return titleCase;
+}
+
 std::vector<std::string> split(const std::string& str, char delimiter) {
     std::vector<std::string> tokens;
     std::istringstream tokenStream(str);
